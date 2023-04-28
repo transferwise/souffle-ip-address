@@ -1,0 +1,17 @@
+// Operations assume netaddr in normalized form
+.type Cidr = [ netaddr: unsigned, netmask: unsigned ]
+
+.type IPv4 = unsigned
+
+// See functors.cpp for implementation.
+//
+// 'stateful' is only needed since these work with complex types,
+// otherwise the functions themselves are not stateful in the functional sense.
+
+.functor parseCidr(cidr: symbol): Cidr stateful
+// Bool-y return value
+.functor cidrOverlaps(a: Cidr, b: Cidr): number stateful
+.functor maskBits(c: Cidr): unsigned stateful
+
+// Prints cidr in x.y.z.w/m format
+.functor printCidr(cidr: Cidr): symbol stateful

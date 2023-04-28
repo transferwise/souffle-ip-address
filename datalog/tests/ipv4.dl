@@ -1,0 +1,34 @@
+#include "../ffi/ipv4.dl"
+
+.decl raw_cidr(c: symbol)
+
+raw_cidr("192.168.0.1/32").
+raw_cidr("192.168.0.0/16").
+raw_cidr("10.0.0.0/8").
+raw_cidr("10.0.0.0/10").
+raw_cidr("10.1.0.0/10").
+
+.decl cidr(c: Cidr)
+
+cidr(@parseCidr(c)) :-
+    raw_cidr(c).
+
+.decl print_cidr(c: symbol)
+.output print_cidr ()
+
+print_cidr(@printCidr(c)) :-
+    cidr(c).
+
+.decl dominates(a: Cidr, b: Cidr)
+
+dominates(a, b) :-
+    cidr(a),
+    cidr(b),
+    @cidrOverlaps(a, b) != 0,
+    @maskBits(a) < @maskBits(b).
+
+.decl print_dominates(a: symbol, b: symbol)
+.output print_dominates ()
+
+print_dominates(@printCidr(a), @printCidr(b)) :-
+   dominates(a, b).
