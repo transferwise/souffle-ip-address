@@ -4,7 +4,7 @@ WHITE  := $(shell tput -Txterm setaf 7)
 RESET  := $(shell tput -Txterm sgr0)
 
 .PHONY: all help devcontainer setup devenv lint fmt
-.PHONY: prepare test
+.PHONY: prepare test clean
 
 all: help
 
@@ -40,6 +40,9 @@ test: ipv4.test
 
 prepare: fmt test lint
 
+clean:
+	./scripts/devrun.sh rm *.so *.o *-stamp
+
 help:
 	@echo ''
 	@echo 'Usage:'
@@ -52,3 +55,4 @@ help:
 	@echo "  ${YELLOW}lint             ${RESET} Run linters"
 	@echo "  ${YELLOW}test             ${RESET} Run all tests and checks"
 	@echo "  ${YELLOW}prepare          ${RESET} Run fmt, test, lint"
+	@echo "  ${YELLOW}clean            ${RESET} Delete build outputs"
