@@ -138,30 +138,4 @@ souffle::RamDomain printCidr(
 	return symbolTable->encode(res);
 }
 
-souffle::RamDomain trueIfEqualsSymbol(
-		souffle::SymbolTable* symbolTable, souffle::RecordTable* recordTable,
-		souffle::RamDomain s1, souffle::RamDomain s2) {
-    assert(symbolTable && "NULL symbol table");
-    assert(recordTable && "NULL record table");
-	// Well, maybe if interning works correctly, then even the string table
-	// ids are equal.. but let's not risk.
-	const std::string& sym1 = symbolTable->decode(s1);
-	const std::string& sym2 = symbolTable->decode(s2);
-	if (sym1 == sym2) {
-		return 1;
-	}
-	return 0;
-}
-
-souffle::RamDomain splitIdPrefix(
-		souffle::SymbolTable* symbolTable, souffle::RecordTable* recordTable, 
-		souffle::RamDomain s) {
-    assert(symbolTable && "NULL symbol table");
-    assert(recordTable && "NULL record table");
-	const std::string& str = symbolTable->decode(s);
-	const std::vector<std::string> parts = souffle::splitString(str, '-');
-	assert(parts.size() && "Should not be empty");
-	return symbolTable->encode(parts[0]);
-}
-
 }  // extern "C"
