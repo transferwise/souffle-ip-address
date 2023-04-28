@@ -20,21 +20,21 @@ setup-stamp: devcontainer-stamp
 	touch $@
 
 devenv: devcontainer
-	@DOCKER_ARGS="-it" ./devrun.sh bash
+	@DOCKER_ARGS="-it" ./scripts/devrun.sh bash
 
 lint:
-	./devrun.sh ./lint.sh
+	./scripts/devrun.sh ./scripts/lint.sh
 
 fmt:
 	@echo pass, no fmt configured yet
 
 libfunctors.so: datalog/ffi/functors.cpp
-	./devrun.sh ./compile.sh $< $@
+	./scripts/devrun.sh ./scripts/compile.sh $< $@
 
 # Note: could be done better.
 .PHONY: %.test
 %.test: datalog/tests/%.dl datalog/tests/%.out libfunctors.so
-	@./devrun.sh ./test.sh $<
+	@./scripts/devrun.sh ./scripts/test.sh $<
 
 test: ipv4.test
 
